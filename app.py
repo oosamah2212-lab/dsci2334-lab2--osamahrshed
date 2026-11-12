@@ -18,19 +18,21 @@ df = load_data()
 
 # Sidebar filters
 st.sidebar.header("Filters")
-min_cgpa = st.sidebar.slider("Minimum CGPA", 6.5, 10.0, 8.0, 0.1)
+min_cgpa = st.sidebar.slider("Minimum CGPA", 6.5, 10.0, 9.0, 0.1)
 research = st.sidebar.selectbox("Research experience", ["All", "Yes", "No"])
 
 view = df[df["CGPA"] >= min_cgpa]
 if research != "All":
     view = view[view["Research"] == (1 if research == "Yes" else 0)]
 
-# Key numbers
-c1, c2, c3 = st.columns(3)
+c1, c2, c3, c4 = st.columns(4)
 c1.metric("Students", len(view))
 if len(view) > 0:
-    c2.metric("Average CGPA", f"{view['CGPA'].mean():.2f}")
-    c3.metric("Average chance", f"{view['Chance of Admit'].mean():.0%}")
+     c2.metric("Average CGPA", f"{view['CGPA'].mean():.2f}")
+     c3.metric("Average chance", f"{view['Chance of Admit'].mean():.0%}")
+     c4.metric("Average GRE", f"{view['GRE Score'].mean():.1f}")
+# Key numbers
+
 else:
     st.warning("No students match these filters. Lower the minimum CGPA.")
 
